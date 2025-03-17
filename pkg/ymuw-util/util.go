@@ -47,22 +47,7 @@ func CreateTemplateConfigJson() error {
 	}
 	defer file.Close()
 
-	// 初期値書き込み
 	encoder := json.NewEncoder(file)
-	// config := model.ConfigJson{
-	// 	AppTheme: "light",
-	// 	OllamaEndpoints: []model.OllamaEndpoint{
-	// 		{
-	// 			EndpointName: "localhost",
-	// 			EndpointURL:  "http://localhost:11434",
-	// 			LLMModels: []string{
-	// 				"qwen2.5-coder:7b",
-	// 			},
-	// 			DefaultLLMModel: "qwen2.5-coder:7b",
-	// 		},
-	// 	},
-	// 	DefaultOllamaEndPointName: "localhost",
-	// }
 	config := model.ConfigJson{
 		AppTheme:                  "light",
 		OllamaEndpoints:           []model.OllamaEndpoint{},
@@ -104,4 +89,8 @@ func UpdateConfigJson(newConfig model.ConfigJson) error {
 		return err
 	}
 	return nil
+}
+
+func CreateErrorMessage(err error) string {
+	return "error: " + err.Error()
 }

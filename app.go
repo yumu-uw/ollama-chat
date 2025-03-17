@@ -46,19 +46,19 @@ func (a *App) SendChat(ollamaURL string, ollamaModel string, chatHistory []model
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 
 	req, err := http.NewRequest("POST", ollamaURL+"/api/chat", bytes.NewBuffer(jsonData))
 	if err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	defer resp.Body.Close()
 
@@ -78,7 +78,7 @@ func (a *App) SendChat(ollamaURL string, ollamaModel string, chatHistory []model
 
 	if err := scanner.Err(); err != nil {
 		runtime.EventsEmit(a.ctx, "deleteEvent", output)
-		return "error: " + err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	runtime.EventsEmit(a.ctx, "deleteEvent", output)
 	return ""
@@ -87,13 +87,13 @@ func (a *App) SendChat(ollamaURL string, ollamaModel string, chatHistory []model
 func (a *App) GetOllamaModels(ollamaURL string) string {
 	resp, err := http.Get(ollamaURL + "/api/tags")
 	if err != nil {
-		return "error: " + err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	defer resp.Body.Close()
 
 	var data model.TagApiResponse
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		return "error: " + err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 
 	var models []string
@@ -111,7 +111,7 @@ func (a *App) GetModels() string {
 func (a *App) UpdateAppTheme(newAppTheme string) string {
 	a.config.AppTheme = newAppTheme
 	if err := ymuwutil.UpdateConfigJson(a.config); err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	return ""
 }
@@ -119,7 +119,7 @@ func (a *App) UpdateAppTheme(newAppTheme string) string {
 func (a *App) UpdateOllamaEndpoints(newOllamaEndpoints []model.OllamaEndpoint) string {
 	a.config.OllamaEndpoints = newOllamaEndpoints
 	if err := ymuwutil.UpdateConfigJson(a.config); err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	return ""
 }
@@ -127,7 +127,7 @@ func (a *App) UpdateOllamaEndpoints(newOllamaEndpoints []model.OllamaEndpoint) s
 func (a *App) UpdateDefaultOllamaEndPointName(name string) string {
 	a.config.DefaultOllamaEndPointName = name
 	if err := ymuwutil.UpdateConfigJson(a.config); err != nil {
-		return err.Error()
+		return ymuwutil.CreateErrorMessage(err)
 	}
 	return ""
 }
