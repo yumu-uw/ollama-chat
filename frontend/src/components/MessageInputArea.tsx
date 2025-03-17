@@ -1,5 +1,6 @@
 import { appThemeAtom } from "@/atom/appThemeAtom";
 import { useAtomValue } from "jotai";
+import { SendHorizontal } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Circle, Divider, Flex, VStack, styled } from "styled-system/jsx";
 
@@ -29,10 +30,16 @@ const MessageInputAreaVStack = styled(VStack, {
 type Props = {
 	input: string;
 	setInput: React.Dispatch<React.SetStateAction<string>>;
+	sendDisabled: boolean;
 	callOllamaApi(): void;
 };
 
-export const MessageInputArea = ({ input, setInput, callOllamaApi }: Props) => {
+export const MessageInputArea = ({
+	input,
+	setInput,
+	sendDisabled,
+	callOllamaApi,
+}: Props) => {
 	const appTheme = useAtomValue(appThemeAtom);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -59,6 +66,9 @@ export const MessageInputArea = ({ input, setInput, callOllamaApi }: Props) => {
 				onKeyDown={(e) => {
 					if (e.key === "Enter" && e.altKey) {
 						e.preventDefault();
+						if (sendDisabled) {
+							return;
+						}
 						callOllamaApi();
 					}
 				}}
@@ -68,11 +78,13 @@ export const MessageInputArea = ({ input, setInput, callOllamaApi }: Props) => {
 			/>
 			<Divider />
 			<Flex w={"100%"} justify={"flex-end"}>
-				<Circle bg="gray.300" w={"2em"} h={"2em"}>
-					<styled.button onClick={callOllamaApi}>
-						<styled.img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWFycm93LXVwIj48cGF0aCBkPSJtNSAxMiA3LTcgNyA3Ii8+PHBhdGggZD0iTTEyIDE5VjUiLz48L3N2Zz4=" />
-					</styled.button>
-				</Circle>
+				<styled.button
+					cursor={"pointer"}
+					onClick={callOllamaApi}
+					disabled={sendDisabled}
+				>
+					<SendHorizontal color={appTheme === "light" ? "black" : "white"} />
+				</styled.button>
 			</Flex>
 		</MessageInputAreaVStack>
 	);

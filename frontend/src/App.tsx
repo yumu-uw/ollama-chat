@@ -24,7 +24,7 @@ const ChatViewWrapperBox = styled(Box, {
 		overflow: "auto",
 		w: "100%",
 		h: "100%",
-		pr: "1.5em",
+		pr: "0.5em",
 		_scrollbarThumb: {
 			borderRadius: "10px",
 			border: "2px solid transparent",
@@ -65,6 +65,7 @@ function App() {
 
 	const [input, setInput] = useState("");
 	const [prevInput, setPrevInput] = useState("");
+	const [sendDisabled, setSendDisabled] = useState(false);
 	const [ollamaResopnse, setOllamaResopnse] = useState("");
 	const [chatHistory, setChatHistory] = useState<Chat[]>([
 		{
@@ -129,6 +130,10 @@ function App() {
 	}, [ollamaResopnse]);
 
 	function callOllamaApi() {
+		if (input === "") {
+			return;
+		}
+		setSendDisabled(true);
 		const msg = input;
 		setPrevInput(msg);
 		setInput("");
@@ -156,6 +161,7 @@ function App() {
 			setPrevInput("");
 			setOllamaResopnse("");
 			setChatHistory(newMessages);
+			setSendDisabled(false);
 			EventsOff("receiveChat");
 		});
 
@@ -191,6 +197,7 @@ function App() {
 				<MessageInputArea
 					input={input}
 					setInput={setInput}
+					sendDisabled={sendDisabled}
 					callOllamaApi={callOllamaApi}
 				/>
 			</Flex>
