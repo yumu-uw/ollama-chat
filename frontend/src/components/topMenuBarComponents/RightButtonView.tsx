@@ -7,8 +7,7 @@ import { Moon, Settings, Sun } from "lucide-react";
 import { useRef } from "react";
 import { styled } from "styled-system/jsx";
 import { UpdateAppTheme } from "wailsjs/go/main/App";
-import { ConfigDialog } from "../configDialogComponents/ConfigDialog";
-import { ConfigDialogWrapper } from "../sharedComponents/ConfigDialogWrapper";
+import { ConfigDialogView } from "../configDialogComponents/ConfigDialogView";
 
 export const RightButtonView = () => {
 	const [appTheme, setAppTheme] = useAtom(appThemeAtom);
@@ -51,9 +50,7 @@ export const RightButtonView = () => {
 				<Settings color={appTheme === "light" ? "black" : "white"} />
 			</styled.button>
 
-			<ConfigDialogWrapper dialogRef={dialogRef} minH={"60vh"} maxH={"80vh"}>
-				<ConfigDialog dialogRef={dialogRef} />
-			</ConfigDialogWrapper>
+			<ConfigDialogView dialogRef={dialogRef} />
 		</>
 	);
 };

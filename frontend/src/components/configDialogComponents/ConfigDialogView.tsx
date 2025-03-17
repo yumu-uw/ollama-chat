@@ -1,10 +1,13 @@
 import { appThemeAtom } from "@/atom/appThemeAtom";
 import { configDIalogIsOpenAtom } from "@/atom/configDIalogIsOpenAtom";
 import { useAtomValue, useSetAtom } from "jotai";
+import { CircleX } from "lucide-react";
 import { useEffect } from "react";
-import { Container, styled } from "styled-system/jsx";
+import { Flex, VStack, styled } from "styled-system/jsx";
+import { AddOllamaHostField } from "./AddOllamaHostField";
+import { ListOllamaHostField } from "./ListOllamaHostField";
 
-const StyledConfigDialogWrapper = styled("dialog", {
+const StyledConfigDialog = styled("dialog", {
 	base: {
 		margin: "auto",
 		w: "90vw",
@@ -47,19 +50,9 @@ const StyledConfigDialogWrapper = styled("dialog", {
 
 type Props = {
 	dialogRef: React.RefObject<HTMLDialogElement | null>;
-	alignContent?: string;
-	minH?: string;
-	maxH?: string;
-	children: React.ReactNode;
 };
 
-export const ConfigDialogWrapper = ({
-	dialogRef,
-	alignContent,
-	minH,
-	maxH,
-	children,
-}: Props) => {
+export const ConfigDialogView = ({ dialogRef }: Props) => {
 	const appTheme = useAtomValue(appThemeAtom);
 	const setConfigDIalogIsOpen = useSetAtom(configDIalogIsOpenAtom);
 
@@ -73,15 +66,25 @@ export const ConfigDialogWrapper = ({
 	}, []);
 
 	return (
-		<StyledConfigDialogWrapper
-			variants={appTheme}
-			ref={dialogRef}
-			minH={minH}
-			maxH={maxH}
-		>
-			<Container alignContent={alignContent} minH={minH} maxH={maxH} p={"1em"}>
-				{children}
-			</Container>
-		</StyledConfigDialogWrapper>
+		<StyledConfigDialog variants={appTheme} ref={dialogRef}>
+			<VStack gap={8} p={"1em"}>
+				<Flex w={"100%"} justify={"flex-end"}>
+					<VStack gap={0}>
+						<styled.button
+							onClick={() => {
+								dialogRef.current?.close();
+							}}
+						>
+							<CircleX cursor="pointer" size={"28px"} />
+						</styled.button>
+						ESC
+					</VStack>
+				</Flex>
+				<VStack gap={8} w={"100%"} alignItems={"flex-start"}>
+					<AddOllamaHostField />
+					<ListOllamaHostField />
+				</VStack>
+			</VStack>
+		</StyledConfigDialog>
 	);
 };
