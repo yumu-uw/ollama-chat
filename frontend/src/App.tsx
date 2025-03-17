@@ -8,12 +8,11 @@ import { appThemeAtom } from "./atom/appThemeAtom";
 import { configAtom } from "./atom/configAtom";
 import { configDIalogIsOpenAtom } from "./atom/configDIalogIsOpenAtom";
 import { currentOllamaHostAtom } from "./atom/currentOllamaHostAtom";
-import { InitialSettingView } from "./components/InitialSettingView";
 import { MessageInputArea } from "./components/MessageInputArea";
 import { ChatView } from "./components/chatViewComponents/ChatView";
 import { MarkdownView } from "./components/chatViewComponents/MarkdownView";
 import { UserMessageView } from "./components/chatViewComponents/UserMessageView";
-import { ConfigDialogWrapper } from "./components/sharedComponents/ConfigDialogWrapper";
+import { ConfigDialogView } from "./components/configDialogComponents/ConfigDialogView";
 import { TopMenuBar } from "./components/topMenuBarComponents/TopMenuBar";
 import type { ConfigModel } from "./model/configModel";
 import type { Chat, ResponseData } from "./model/dataModels";
@@ -202,13 +201,7 @@ function App() {
 				/>
 			</Flex>
 
-			<ConfigDialogWrapper
-				dialogRef={dialogRef}
-				alignContent={"center"}
-				minH={"40vh"}
-			>
-				<InitialSettingView dialogRef={dialogRef} />
-			</ConfigDialogWrapper>
+			<ConfigDialogView dialogRef={dialogRef} />
 		</Container>
 	);
 }

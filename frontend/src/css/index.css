@@ -5,11 +5,14 @@
 	background-color: white;
 
 	@media not (forced-colors: active) {
-		dialog::-webkit-scrollbar, dialog::-webkit-scrollbar-track, div::-webkit-scrollbar, div::-webkit-scrollbar-track {
+		dialog::-webkit-scrollbar,
+		dialog::-webkit-scrollbar-track,
+		div::-webkit-scrollbar,
+		div::-webkit-scrollbar-track {
 			background-color: inherit;
 			border-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
 			border-top-left-radius: 0;
-			border-top-right-radius:0
+			border-top-right-radius: 0;
 		}
 	}
 }
@@ -19,13 +22,20 @@
 	background-color: #111827;
 
 	@media not (forced-colors: active) {
-		dialog::-webkit-scrollbar, dialog::-webkit-scrollbar-track, div::-webkit-scrollbar, div::-webkit-scrollbar-track {
+		dialog::-webkit-scrollbar,
+		dialog::-webkit-scrollbar-track,
+		div::-webkit-scrollbar,
+		div::-webkit-scrollbar-track {
 			background-color: inherit;
 			border-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
 			border-top-left-radius: 0;
-			border-top-right-radius:0
+			border-top-right-radius: 0;
 		}
 	}
+}
+
+dialog::backdrop {
+	background-color: rgba(211, 211, 211, 0.6);
 }
 
 pre code:not(.hljs) {
